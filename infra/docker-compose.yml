@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   app:
     build:
@@ -6,9 +5,18 @@ services:
       dockerfile: infra/docker/Dockerfile.app
     ports:
       - "${APP_PORT:-8501}:8501"
+    env_file:
+      - .env  
     environment:
+      # Override with Docker networking
       - QDRANT_HOST=qdrant
       - QDRANT_PORT=6333
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      # These will be loaded from .env file
+      - POSTGRES_DB=${POSTGRES_DB:-interview_coach}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
       - QDRANT_COLLECTION=${QDRANT_COLLECTION:-interview_chunks}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_BASE_URL=${OPENAI_BASE_URL:-}
@@ -16,11 +24,13 @@ services:
       - EMBEDDING_DIM=${EMBEDDING_DIM:-1536}
     depends_on:
       - qdrant
+      - postgres
     volumes:
       - ../data:/app/data
       - ../reports:/app/reports
     networks:
       - interview_net
+    restart: unless-stopped
 
   qdrant:
     image: qdrant/qdrant:v1.8.4
@@ -34,9 +44,9 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: interview_coach
-      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-interview_coach}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
     ports:
       - "5432:5432"
     volumes:

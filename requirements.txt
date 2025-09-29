@@ -6,7 +6,8 @@ python-dotenv==1.0.1
 qdrant-client==1.9.2
 
 # Embeddings and ML
-openai==1.40.0
+openai>=1.44.0,<2
+httpx>=0.27.0,<0.28
 tiktoken==0.7.0
 sentence-transformers==3.0.1
 

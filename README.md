@@ -239,7 +239,7 @@ ds-interview-coach/
 2. Create a feature branch (`git checkout -b feature/newfeature`)
 3. Commit changes (`git commit -m 'Add newfeature'`)
 4. Push to branch (`git push origin feature/newfeature`)
-5. Open a Pull Request
+5. Open a Pull Request (PR)
 
 ## 📝 License
 
@@ -251,8 +251,8 @@ MIT License - see LICENSE file for details
 
 ## 📞 Support
 
-- Issues: [GitHub Issues](https://github.com/yourusername/ds-interview-coach/issues)
-- Discussions: [GitHub Discussions](https://github.com/yourusername/ds-interview-coach/discussions)
+- Issues: [GitHub Issues](https://github.com/bkraffa/ds-interview-coach/issues)
+- Discussions: [GitHub Discussions](https://github.com/bkraffa/ds-interview-coach/discussions)
 
 ## 🎯 Roadmap
 
