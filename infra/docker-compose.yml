@@ -5,14 +5,22 @@ services:
       context: ..
       dockerfile: infra/docker/Dockerfile.app
     ports:
-      - "${APP_PORT-8501}:8501"
-    env_file:
-      - ../.env
+      - "${APP_PORT:-8501}:8501"
+    environment:
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      - QDRANT_COLLECTION=${QDRANT_COLLECTION:-interview_chunks}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL:-}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-text-embedding-3-small}
+      - EMBEDDING_DIM=${EMBEDDING_DIM:-1536}
     depends_on:
       - qdrant
     volumes:
       - ../data:/app/data
       - ../reports:/app/reports
+    networks:
+      - interview_net
 
   qdrant:
     image: qdrant/qdrant:v1.8.4
@@ -20,17 +28,22 @@ services:
       - "6333:6333"
     volumes:
       - qdrant_storage:/qdrant/storage
+    networks:
+      - interview_net
 
-  # Optional: Postgres for feedback + Grafana/Prometheus can be added later
   postgres:
     image: postgres:16-alpine
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: interview_coach
+      POSTGRES_USER: postgres
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - interview_net
 
   prometheus:
     image: prom/prometheus:v2.53.0
@@ -38,6 +51,8 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    networks:
+      - interview_net
 
   grafana:
     image: grafana/grafana:11.0.0
@@ -45,9 +60,21 @@ services:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
     volumes:
       - ./grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - interview_net
+
+networks:
+  interview_net:
+    driver: bridge
+
 volumes:
   qdrant_storage:
   pgdata:
+  grafana_data:
