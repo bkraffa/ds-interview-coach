@@ -18,6 +18,14 @@ from .embeddings import get_embedding_model, embed_texts
 nltk.download('punkt', quiet=True)
 nltk.download('stopwords', quiet=True)
 
+# Category mapping - maps UI categories to database categories
+CATEGORY_MAP = {
+    "all": "all",
+    "machine_learning": "machine_learning",
+    "deep_learning": "deep_learning", 
+    "behavioral": "behavioral"
+}
+
 class EnhancedRAG:
     def __init__(self, qdrant_host: str, qdrant_port: int, collection: str):
         self.qdrant = QdrantClient(host=qdrant_host, port=qdrant_port)
@@ -88,38 +96,74 @@ class EnhancedRAG:
         if self._bm25_index is not None:
             return
         
+        print("Loading BM25 index...")
         # Load all documents from Qdrant
-        limit = 1000
-        offset = 0
         all_docs = []
         all_metadata = []
         
-        while True:
-            results = self.qdrant.scroll(
-                collection_name=self.collection,
-                limit=limit,
-                offset=offset,
-                with_payload=True,
-                with_vectors=False
-            )[0]
+        try:
+            # Use scroll with proper parameters
+            next_page_offset = None
+            limit = 100  # Smaller batches
             
-            if not results:
-                break
+            while True:
+                results, next_page_offset = self.qdrant.scroll(
+                    collection_name=self.collection,
+                    limit=limit,
+                    offset=next_page_offset,
+                    with_payload=True,
+                    with_vectors=False
+                )
+                
+                if not results:
+                    break
+                
+                for point in results:
+                    text = point.payload.get("text", "")
+                    if text and text.strip():  # Only add non-empty texts
+                        all_docs.append(text)
+                        metadata = point.payload.copy()
+                        metadata["id"] = point.id
+                        all_metadata.append(metadata)
+                
+                print(f"Loaded {len(all_docs)} documents...")
+                
+                # If next_page_offset is None, we've reached the end
+                if next_page_offset is None:
+                    break
             
-            for point in results:
-                text = point.payload.get("text", "")
-                all_docs.append(text)
-                metadata = point.payload.copy()
-                metadata["id"] = point.id
-                all_metadata.append(metadata)
+            print(f"Total documents loaded: {len(all_docs)}")
             
-            offset += limit
-        
-        # Tokenize and create BM25 index
-        tokenized_docs = [word_tokenize(doc.lower()) for doc in all_docs]
-        self._bm25_index = BM25Okapi(tokenized_docs)
-        self._corpus_docs = all_docs
-        self._corpus_metadata = all_metadata
+            if not all_docs:
+                print("Warning: No documents found for BM25 index")
+                # Create dummy index
+                self._bm25_index = BM25Okapi([["dummy"]])
+                self._corpus_docs = [""]
+                self._corpus_metadata = [{}]
+                return
+            
+            # Tokenize and create BM25 index
+            print("Creating BM25 index...")
+            tokenized_docs = []
+            for doc in all_docs:
+                tokens = word_tokenize(doc.lower())
+                if not tokens:  # If tokenization failed or empty
+                    tokens = ["empty"]
+                tokenized_docs.append(tokens)
+            
+            self._bm25_index = BM25Okapi(tokenized_docs)
+            self._corpus_docs = all_docs
+            self._corpus_metadata = all_metadata
+            print("BM25 index ready!")
+            
+        except Exception as e:
+            print(f"Error loading BM25 index: {e}")
+            import traceback
+            traceback.print_exc()
+            # Fallback to dummy index
+            self._bm25_index = BM25Okapi([["dummy"]])
+            self._corpus_docs = [""]
+            self._corpus_metadata = [{}]
     
     def dense_search(self, query: str, top_k: int = 10, filter: Optional[Filter] = None) -> List[Dict]:
         """Vector-based semantic search"""
@@ -139,6 +183,8 @@ class EnhancedRAG:
                 "id": hit.id,
                 "score": hit.score,
                 "text": payload.get("text", ""),
+                "question": payload.get("question", ""),
+                "answer": payload.get("answer", ""),
                 "source": payload.get("source", ""),
                 "category": payload.get("category", "unknown"),
                 "method": "dense"
@@ -154,7 +200,7 @@ class EnhancedRAG:
         doc_scores = self._bm25_index.get_scores(query_tokens)
         
         # Apply category filter if specified
-        if category_filter:
+        if category_filter and category_filter != "all":
             for i, metadata in enumerate(self._corpus_metadata):
                 if metadata.get("category") != category_filter:
                     doc_scores[i] = -1
@@ -172,6 +218,8 @@ class EnhancedRAG:
                 "id": metadata.get("id"),
                 "score": float(doc_scores[idx]),
                 "text": self._corpus_docs[idx],
+                "question": metadata.get("question", ""),
+                "answer": metadata.get("answer", ""),
                 "source": metadata.get("source", ""),
                 "category": metadata.get("category", "unknown"),
                 "method": "sparse"
@@ -193,15 +241,25 @@ class EnhancedRAG:
         # Create filter for mode
         filter = None
         category_filter = None
+        
         if mode != "all":
             filter = Filter(
                 must=[FieldCondition(key="category", match=MatchValue(value=mode))]
             )
             category_filter = mode
         
-        # Get results from both methods
+        # Get results from dense search first (always works)
         dense_results = self.dense_search(query, top_k=top_k*2, filter=filter)
-        sparse_results = self.sparse_search(query, top_k=top_k*2, category_filter=category_filter)
+        
+        # Try sparse search, but fallback to dense-only if it fails
+        try:
+            sparse_results = self.sparse_search(query, top_k=top_k*2, category_filter=category_filter)
+        except Exception as e:
+            print(f"Sparse search failed: {e}. Using dense search only.")
+            # Just use dense results
+            for result in dense_results[:top_k]:
+                result["method"] = "hybrid_fallback"
+            return dense_results[:top_k]
         
         # Combine scores using reciprocal rank fusion
         combined_scores = {}
@@ -289,12 +347,25 @@ class EnhancedRAG:
         """
         Complete retrieval pipeline with all enhancements
         Returns: (results, metadata)
+        
+        Args:
+            query: User's question
+            top_k: Number of results to return
+            mode: Category filter (all, machine_learning, deep_learning, behavioral)
+            use_rewrite: Whether to rewrite the query
+            use_hybrid: Whether to use hybrid search
+            use_rerank: Whether to rerank results
+            hybrid_alpha: Weight for dense search in hybrid mode
         """
+        # Map mode to actual category in database
+        category = CATEGORY_MAP.get(mode, "all")
+        
         metadata = {
             "original_query": query,
             "rewritten_query": None,
             "search_method": None,
-            "reranking_applied": False
+            "reranking_applied": False,
+            "category": category
         }
         
         # 1. Query rewriting
@@ -311,15 +382,15 @@ class EnhancedRAG:
                 search_query,
                 top_k=top_k*2 if use_rerank else top_k,
                 alpha=hybrid_alpha,
-                mode=mode
+                mode=category  # Use mapped category
             )
             metadata["search_method"] = "hybrid"
         else:
             # Fallback to dense search
             filter = None
-            if mode != "all":
+            if category != "all":
                 filter = Filter(
-                    must=[FieldCondition(key="category", match=MatchValue(value=mode))]
+                    must=[FieldCondition(key="category", match=MatchValue(value=category))]
                 )
             results = self.dense_search(
                 search_query,
@@ -346,50 +417,112 @@ class EnhancedRAG:
     ) -> str:
         """
         Generate answer using retrieved context
+        
+        Args:
+            query: User's question
+            context: List of retrieved documents
+            mode: Category (all, machine_learning, deep_learning, behavioral)
+            temperature: Creativity parameter for GPT
         """
+        # Map mode to category
+        category = CATEGORY_MAP.get(mode, "all")
+        
         # Prepare context text
         context_text = "\n\n".join([
-            f"[Source: {doc.get('source', 'Unknown')}]\n{doc['text']}"
+            f"[Source: {doc.get('source', 'Unknown')} | Category: {doc.get('category', 'unknown')}]\nQ: {doc.get('question', 'N/A')}\nA: {doc.get('answer', doc.get('text', ''))}"
             for doc in context
         ])
         
-        # Select appropriate prompt based on mode
-        if mode == "behavioral":
-            system_prompt = """You are an expert behavioral interview coach. 
-            Help candidates structure their responses using the STAR method (Situation, Task, Action, Result).
-            Provide guidance that is specific, actionable, and professional."""
+        # Select appropriate prompt based on category
+        if category == "behavioral":
+            system_prompt = """You are an expert behavioral interview coach with years of experience in career counseling and HR.
             
-            user_prompt = f"""Based on the following reference materials, help answer this behavioral interview question.
+Your role is to:
+- Help candidates structure compelling responses using the STAR method (Situation, Task, Action, Result)
+- Provide specific, actionable guidance that candidates can adapt to their own experiences
+- Emphasize authenticity and concrete examples over generic advice
+- Include tips on what interviewers are looking for in behavioral responses
+- Be professional yet approachable in your tone"""
             
-            Reference Materials:
-            {context_text}
+            user_prompt = f"""Based on the following behavioral interview guidance, help answer this question comprehensively.
+
+Reference Materials:
+{context_text}
+
+Question: {query}
+
+Provide a structured response that includes:
+1. Key points to address in the answer
+2. STAR framework guidance (if applicable)
+3. Tips on what interviewers are looking for
+4. Example structure a candidate could follow
+5. Common pitfalls to avoid
+
+Be specific and actionable."""
             
-            Question: {query}
+        elif category in ["machine_learning", "deep_learning"]:
+            system_prompt = """You are an expert Data Science and Machine Learning interview coach with deep technical knowledge.
+
+Your role is to:
+- Provide clear, accurate, and comprehensive technical explanations
+- Include relevant formulas, algorithms, and code examples when appropriate
+- Connect concepts to practical applications and real-world scenarios
+- Highlight common interview follow-up questions
+- Explain trade-offs and considerations for different approaches
+- Use proper technical terminology while remaining accessible"""
             
-            Provide a structured response that a candidate could adapt to their own experience."""
+            user_prompt = f"""Based on the following technical references, provide a comprehensive answer to this data science interview question.
+
+Technical Context:
+{context_text}
+
+Question: {query}
+
+Provide a well-structured answer that includes:
+1. Clear explanation of the concept
+2. Mathematical intuition or formulas (if relevant)
+3. Code examples or pseudocode (if applicable)
+4. Practical use cases and applications
+5. Common variations or related concepts
+6. Typical follow-up questions interviewers might ask
+
+Be thorough but concise."""
             
-        else:  # technical or all
-            system_prompt = """You are an expert Data Science interview coach with deep knowledge of ML/DL concepts.
-            Provide clear, accurate, and comprehensive answers that demonstrate understanding."""
+        else:  # "all" - mixed or general
+            system_prompt = """You are an expert interview coach specializing in Data Science positions.
             
-            user_prompt = f"""Based on the following technical references, answer this data science interview question.
+Your role is to:
+- Provide clear, comprehensive answers to both technical and behavioral questions
+- Adapt your response style based on the question type
+- Include practical examples and actionable advice
+- Help candidates understand what interviewers are looking for
+- Be professional, accurate, and helpful"""
             
-            Technical Context:
-            {context_text}
-            
-            Question: {query}
-            
-            Provide a clear, structured answer with examples where appropriate."""
+            user_prompt = f"""Based on the following reference materials, provide a comprehensive answer to this interview question.
+
+Reference Materials:
+{context_text}
+
+Question: {query}
+
+Provide a clear, well-structured answer that addresses:
+1. The core question directly
+2. Key concepts or frameworks to mention
+3. Practical examples or scenarios
+4. What interviewers are typically looking for
+5. Common follow-up questions or related topics
+
+Adapt your response style based on whether this is a technical or behavioral question."""
         
         try:
             response = self.openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
                 ],
                 temperature=temperature,
-                max_tokens=800
+                max_tokens=1000
             )
             
             return response.choices[0].message.content

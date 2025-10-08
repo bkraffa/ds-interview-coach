@@ -79,6 +79,13 @@ def init_services():
     )
     feedback = FeedbackService()
     feedback.create_session(st.session_state.session_id)
+
+    try:
+        with st.spinner("Loading search index..."):
+            rag._load_bm25_index()
+    except Exception as e:
+        st.warning(f"Could not pre-load BM25 index: {e}")
+
     return rag, feedback
 
 rag_service, feedback_service = init_services()
@@ -91,28 +98,30 @@ st.markdown("### AI-Powered Interview Preparation with Advanced RAG")
 with st.sidebar:
     st.header("⚙️ Configuration")
     
-    # Mode selection
+    # Mode selection - updated to match your categories
     mode = st.selectbox(
         "Interview Type",
-        ["All Topics", "Technical Only", "Behavioral Only"],
+        ["All Topics", "Machine Learning", "Deep Learning", "Behavioral"],
         help="Focus on specific interview types"
     )
     mode_map = {
         "All Topics": "all",
-        "Technical Only": "technical",
-        "Behavioral Only": "behavioral"
+        "Machine Learning": "machine_learning",
+        "Deep Learning": "deep_learning",
+        "Behavioral": "behavioral"
     }
     
     # Advanced settings
     with st.expander("🔧 Advanced Settings"):
-        use_hybrid = st.checkbox("Hybrid Search", value=True, 
-                                help="Combine semantic and keyword search")
+        use_hybrid = st.checkbox("Hybrid Search", value=False,  # Changed from True to False
+                                help="Combine semantic and keyword search (may be slow on first use)")
         use_rerank = st.checkbox("Re-ranking", value=True,
                                 help="Use cross-encoder for result re-ranking")
         use_rewrite = st.checkbox("Query Rewriting", value=True,
-                                 help="Automatically enhance queries")
+                                help="Automatically enhance queries")
         
         if use_hybrid:
+            st.warning("⚠️ Hybrid search loads all documents into memory on first use. This may take 30-60 seconds.")
             hybrid_alpha = st.slider("Hybrid Alpha", 0.0, 1.0, 0.5,
                                     help="Balance between semantic (1.0) and keyword (0.0) search")
         else:
@@ -120,7 +129,7 @@ with st.sidebar:
         
         top_k = st.slider("Results to Retrieve", 3, 10, 5)
         temperature = st.slider("Response Creativity", 0.0, 1.0, 0.7,
-                               help="Higher = more creative, Lower = more focused")
+                            help="Higher = more creative, Lower = more focused")
     
     # Session info
     st.divider()
@@ -154,33 +163,48 @@ with tab1:
     st.header("Interview Practice Chat")
     
     # Example questions
-    with st.expander("📝 Example Questions"):
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**Technical:**")
-            technical_examples = [
-                "Explain gradient descent and its variants",
-                "What's the difference between bagging and boosting?",
-                "How do you handle overfitting?",
-                "Explain CNN architecture for image classification",
-                "What are the assumptions of linear regression?"
-            ]
-            for ex in technical_examples:
-                if st.button(ex, key=f"tech_{ex[:20]}"):
-                    st.session_state.query_input = ex
-        
-        with col2:
-            st.markdown("**Behavioral:**")
-            behavioral_examples = [
-                "Tell me about a challenging project",
-                "How do you handle disagreements with stakeholders?",
-                "Describe a time you failed and what you learned",
-                "How do you prioritize multiple deadlines?",
-                "What's your approach to learning new technologies?"
-            ]
-            for ex in behavioral_examples:
-                if st.button(ex, key=f"beh_{ex[:20]}"):
-                    st.session_state.query_input = ex
+    # Around line 130, update example questions
+with st.expander("📝 Example Questions"):
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("**Machine Learning:**")
+        ml_examples = [
+            "What is gradient descent?",
+            "Explain bias-variance tradeoff",
+            "What are ensemble methods?",
+            "How does k-means clustering work?",
+            "What is cross-validation?"
+        ]
+        for ex in ml_examples:
+            if st.button(ex, key=f"ml_{ex[:15]}"):
+                st.session_state.query_input = ex
+    
+    with col2:
+        st.markdown("**Deep Learning:**")
+        dl_examples = [
+            "Explain backpropagation",
+            "What are CNNs used for?",
+            "How does attention mechanism work?",
+            "What is transfer learning?",
+            "Explain vanishing gradient problem"
+        ]
+        for ex in dl_examples:
+            if st.button(ex, key=f"dl_{ex[:15]}"):
+                st.session_state.query_input = ex
+    
+    with col3:
+        st.markdown("**Behavioral:**")
+        behavioral_examples = [
+            "Tell me about yourself",
+            "What are your greatest strengths?",
+            "Why should I hire you?",
+            "Describe a challenging project",
+            "How do you handle pressure?"
+        ]
+        for ex in behavioral_examples:
+            if st.button(ex, key=f"beh_{ex[:15]}"):
+                st.session_state.query_input = ex
     
     # Query input
     query = st.text_area(
@@ -276,81 +300,89 @@ with tab1:
             st.rerun()
     
     # Display chat history
+        
     for i, item in enumerate(reversed(st.session_state.chat_history)):
-        with st.container():
-            # Question
-            st.markdown(f"### 🙋 Question {len(st.session_state.chat_history) - i}")
-            st.write(item["query"])
-            
-            # Answer
-            st.markdown("### 🤖 Answer")
-            st.write(item["answer"])
-            
-            # Metadata and sources
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                with st.expander("📚 View Sources"):
-                    for j, source in enumerate(item["sources"], 1):
-                        st.markdown(f"**Source {j}:** {source.get('source', 'Unknown')}")
-                        st.caption(f"Score: {source.get('rerank_score', source.get('score', 0)):.3f}")
-                        st.text(source["text"][:300] + "...")
-            
-            with col2:
-                if item["metadata"].get("rewritten_query"):
-                    st.caption(f"✨ Enhanced query: {item['metadata']['rewritten_query'][:50]}...")
-                st.caption(f"⚡ {item['time_ms']:.0f}ms | 🔍 {item['metadata'].get('search_method', 'unknown')}")
-            
-            # Feedback section
+        # Question
+        st.markdown(f"### 🙋 Question {len(st.session_state.chat_history) - i}")
+        st.write(item["query"])
+        
+        # Answer
+        st.markdown("### 🤖 Answer")
+        st.write(item["answer"])
+        
+        # Metadata
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            if item["metadata"].get("rewritten_query"):
+                st.caption(f"✨ Enhanced query: {item['metadata']['rewritten_query'][:60]}...")
+        with col2:
+            st.caption(f"⚡ {item['time_ms']:.0f}ms | 🔍 {item['metadata'].get('search_method', 'unknown')}")
+        
+        # Sources - NOT nested in expander, just displayed
+        st.markdown("**📚 Sources:**")
+        for j, source in enumerate(item["sources"], 1):
             with st.container():
-                st.markdown('<div class="feedback-section">', unsafe_allow_html=True)
-                col1, col2, col3, col4 = st.columns([1, 1, 2, 2])
+                col_a, col_b = st.columns([4, 1])
+                with col_a:
+                    st.caption(f"**{j}.** {source.get('source', 'Unknown')} | {source.get('category', 'unknown')}")
+                with col_b:
+                    score = source.get('rerank_score', source.get('score', 0))
+                    st.caption(f"Score: {score:.3f}")
                 
-                with col1:
-                    if st.button("👍", key=f"up_{i}", use_container_width=True):
-                        feedback_service.record_feedback(
-                            session_id=st.session_state.session_id,
-                            query=item["query"],
-                            response=item["answer"],
-                            rating=1,
-                            category=mode_map[mode],
-                            search_method=item["metadata"].get("search_method"),
-                            response_time_ms=int(item["time_ms"])
-                        )
-                        st.success("Thanks for your feedback!")
-                
-                with col2:
-                    if st.button("👎", key=f"down_{i}", use_container_width=True):
-                        feedback_service.record_feedback(
-                            session_id=st.session_state.session_id,
-                            query=item["query"],
-                            response=item["answer"],
-                            rating=-1,
-                            category=mode_map[mode],
-                            search_method=item["metadata"].get("search_method"),
-                            response_time_ms=int(item["time_ms"])
-                        )
-                        st.warning("Sorry to hear that. We'll improve!")
-                
-                with col3:
-                    detailed = st.text_input("Additional feedback:", key=f"feedback_{i}")
-                
-                with col4:
-                    if st.button("Submit Feedback", key=f"submit_fb_{i}") and detailed:
-                        feedback_service.record_feedback(
-                            session_id=st.session_state.session_id,
-                            query=item["query"],
-                            response=item["answer"],
-                            rating=0,
-                            detailed_feedback=detailed,
-                            category=mode_map[mode],
-                            search_method=item["metadata"].get("search_method"),
-                            response_time_ms=int(item["time_ms"])
-                        )
-                        st.info("Feedback recorded!")
-                
-                st.markdown('</div>', unsafe_allow_html=True)
-            
-            st.divider()
+                # Show a preview of the text
+                preview_text = source.get('question', source['text'][:200])
+                st.text(f"   {preview_text}...")
+        
+        # Feedback section
+        st.markdown('<div class="feedback-section">', unsafe_allow_html=True)
+        col1, col2, col3, col4 = st.columns([1, 1, 2, 2])
+        
+        with col1:
+            if st.button("👍 Helpful", key=f"up_{i}", use_container_width=True):
+                feedback_service.record_feedback(
+                    session_id=st.session_state.session_id,
+                    query=item["query"],
+                    response=item["answer"],
+                    rating=1,
+                    category=mode_map[mode],
+                    search_method=item["metadata"].get("search_method"),
+                    response_time_ms=int(item["time_ms"])
+                )
+                st.success("Thanks!")
+        
+        with col2:
+            if st.button("👎 Not helpful", key=f"down_{i}", use_container_width=True):
+                feedback_service.record_feedback(
+                    session_id=st.session_state.session_id,
+                    query=item["query"],
+                    response=item["answer"],
+                    rating=-1,
+                    category=mode_map[mode],
+                    search_method=item["metadata"].get("search_method"),
+                    response_time_ms=int(item["time_ms"])
+                )
+                st.warning("We'll improve!")
+        
+        with col3:
+            detailed = st.text_input("Additional feedback:", key=f"feedback_{i}", placeholder="Optional comments...")
+        
+        with col4:
+            if st.button("📝 Submit", key=f"submit_fb_{i}") and detailed:
+                feedback_service.record_feedback(
+                    session_id=st.session_state.session_id,
+                    query=item["query"],
+                    response=item["answer"],
+                    rating=0,
+                    detailed_feedback=detailed,
+                    category=mode_map[mode],
+                    search_method=item["metadata"].get("search_method"),
+                    response_time_ms=int(item["time_ms"])
+                )
+                st.info("Feedback recorded!")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        st.divider()
 
 with tab2:
     # Analytics Dashboard
@@ -434,21 +466,20 @@ with tab3:
     st.info("""
     Our knowledge base includes:
     - **50+ Machine Learning** interview questions covering algorithms, evaluation metrics, and best practices
-    - **111 Deep Learning** questions on neural networks, CNNs, RNNs, transformers, and more
-    - **Behavioral interview** frameworks and example responses
-    - **System design** patterns for ML systems
+    - **111+ Deep Learning** questions on neural networks, CNNs, RNNs, transformers, and more
+    - **64 Behavioral** interview questions with expert-crafted responses using proven frameworks
     """)
     
     # Sample questions from the knowledge base
     st.subheader("Sample Questions by Topic")
     
     topics = {
-        "Gradient Descent & Optimization": [
-            "What is gradient descent and how does it work?",
-            "Explain vanishing and exploding gradients",
-            "Compare SGD, Adam, and other optimizers"
+        "Machine Learning Fundamentals": [
+            "What is the difference between supervised and unsupervised learning?",
+            "Explain the bias-variance tradeoff",
+            "What is regularization and why is it important?"
         ],
-        "Neural Networks": [
+        "Deep Learning": [
             "What is backpropagation?",
             "Explain different activation functions",
             "How does batch normalization work?"
@@ -458,10 +489,11 @@ with tab3:
             "How do CNNs achieve translation invariance?",
             "Explain pooling and its purposes"
         ],
-        "NLP & Transformers": [
-            "What are word embeddings?",
-            "Explain the attention mechanism",
-            "How does BERT differ from traditional models?"
+        "Behavioral Questions": [
+            "Tell me about yourself",
+            "What are your greatest strengths?",
+            "Why should I hire you?",
+            "How do you handle working under pressure?"
         ]
     }
     
