@@ -28,6 +28,9 @@ services:
     volumes:
       - ../data:/app/data
       - ../reports:/app/reports
+      - ../scripts:/app/scripts  
+      - ../app:/app/app 
+      
     networks:
       - interview_net
     restart: unless-stopped

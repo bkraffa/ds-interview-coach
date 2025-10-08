@@ -23,13 +23,13 @@ Data Science interviews are challenging, requiring candidates to master both tec
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/ds-interview-coach.git
+git clone https://github.com/bkraffa/ds-interview-coach.git
 cd ds-interview-coach
 ```
 
 2. **Set up environment variables**
 ```bash
-cp .env.example .env
+cp .env.example infra/.env
 # Edit .env and add your OPENAI_API_KEY
 ```
 

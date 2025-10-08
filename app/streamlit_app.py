@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Import services
-from services.enhanced_rag import EnhancedRAG
+from services.rag import EnhancedRAG
 from services.feedback import FeedbackService
 
 # Page configuration
@@ -367,7 +367,7 @@ with tab2:
         with col2:
             st.metric("Total Queries", analytics["overall"].get("total_queries", 0))
         with col3:
-            satisfaction = analytics["overall"].get("satisfaction_rate", 0) * 100
+            satisfaction = (analytics["overall"].get("satisfaction_rate") or 0) * 100
             st.metric("Satisfaction Rate", f"{satisfaction:.1f}%")
         with col4:
             avg_time = analytics["overall"].get("avg_response_time", 0)
