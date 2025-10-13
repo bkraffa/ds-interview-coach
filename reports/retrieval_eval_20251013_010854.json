@@ -1,0 +1,139 @@
+{
+  "timestamp": "2025-10-13T01:07:46.643760",
+  "num_questions": 7,
+  "configurations": [
+    {
+      "config_name": "top5_hybridFalse_rerankFalse_rewriteFalse",
+      "top_k": 5,
+      "use_hybrid": false,
+      "use_rerank": false,
+      "use_rewrite": false,
+      "mean_score": 0.2791666666666667,
+      "std_score": 0.137127561977774,
+      "mean_latency": 0.9236511162349156,
+      "scores": [
+        0.17250000000000001,
+        0.33666666666666667,
+        0.26833333333333337,
+        0.01,
+        0.43666666666666665,
+        0.41416666666666657,
+        0.31583333333333335
+      ]
+    },
+    {
+      "config_name": "top5_hybridFalse_rerankTrue_rewriteFalse",
+      "top_k": 5,
+      "use_hybrid": false,
+      "use_rerank": true,
+      "use_rewrite": false,
+      "mean_score": 0.2851190476190476,
+      "std_score": 0.14730342602848004,
+      "mean_latency": 1.2424763611384801,
+      "scores": [
+        0.17250000000000001,
+        0.38083333333333336,
+        0.29500000000000004,
+        0.0,
+        0.44666666666666666,
+        0.4341666666666666,
+        0.26666666666666666
+      ]
+    },
+    {
+      "config_name": "top5_hybridFalse_rerankTrue_rewriteTrue",
+      "top_k": 5,
+      "use_hybrid": false,
+      "use_rerank": true,
+      "use_rewrite": true,
+      "mean_score": 0.2844047619047619,
+      "std_score": 0.14684898995342166,
+      "mean_latency": 1.9161792142050607,
+      "scores": [
+        0.17250000000000001,
+        0.37583333333333335,
+        0.29500000000000004,
+        0.0,
+        0.44666666666666666,
+        0.4341666666666666,
+        0.26666666666666666
+      ]
+    },
+    {
+      "config_name": "top5_hybridTrue_rerankTrue_rewriteTrue",
+      "top_k": 5,
+      "use_hybrid": true,
+      "use_rerank": true,
+      "use_rewrite": true,
+      "mean_score": 0.2844047619047619,
+      "std_score": 0.14684898995342166,
+      "mean_latency": 1.8053029945918493,
+      "scores": [
+        0.17250000000000001,
+        0.37583333333333335,
+        0.29500000000000004,
+        0.0,
+        0.44666666666666666,
+        0.4341666666666666,
+        0.26666666666666666
+      ]
+    },
+    {
+      "config_name": "top3_hybridFalse_rerankTrue_rewriteTrue",
+      "top_k": 3,
+      "use_hybrid": false,
+      "use_rerank": true,
+      "use_rewrite": true,
+      "mean_score": 0.3948412698412698,
+      "std_score": 0.20890887997166457,
+      "mean_latency": 1.552182708467756,
+      "scores": [
+        0.25,
+        0.5555555555555556,
+        0.4305555555555556,
+        0.0,
+        0.611111111111111,
+        0.611111111111111,
+        0.3055555555555555
+      ]
+    },
+    {
+      "config_name": "top7_hybridFalse_rerankTrue_rewriteTrue",
+      "top_k": 7,
+      "use_hybrid": false,
+      "use_rerank": true,
+      "use_rewrite": true,
+      "mean_score": 0.21900874635568512,
+      "std_score": 0.11580314692290325,
+      "mean_latency": 2.2986668178013394,
+      "scores": [
+        0.1342687074829932,
+        0.27202380952380956,
+        0.22772108843537417,
+        0.0,
+        0.3599319727891156,
+        0.34328231292517003,
+        0.19583333333333333
+      ]
+    }
+  ],
+  "best_configuration": {
+    "config_name": "top3_hybridFalse_rerankTrue_rewriteTrue",
+    "top_k": 3,
+    "use_hybrid": false,
+    "use_rerank": true,
+    "use_rewrite": true,
+    "mean_score": 0.3948412698412698,
+    "std_score": 0.20890887997166457,
+    "mean_latency": 1.552182708467756,
+    "scores": [
+      0.25,
+      0.5555555555555556,
+      0.4305555555555556,
+      0.0,
+      0.611111111111111,
+      0.611111111111111,
+      0.3055555555555555
+    ]
+  }
+}
