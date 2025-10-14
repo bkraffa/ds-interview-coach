@@ -8,6 +8,7 @@
 An advanced RAG-based intelligent agent that helps data science candidates excel in technical and behavioral interviews through personalized coaching, real-time feedback, and performance analytics.
 
 ![alt text](front_chat.png)
+![alt text](answer_chat.png)
 
 ## Key Features
 
