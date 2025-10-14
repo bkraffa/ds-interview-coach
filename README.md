@@ -1,68 +1,45 @@
 # DS Interview Coach — AI-Powered Interview Preparation System
 
-An intelligent RAG-based agent that helps data science candidates prepare for technical and behavioral interviews with personalized coaching and feedback.
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-green.svg)](https://www.docker.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-orange.svg)](https://openai.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Problem Statement
+An advanced RAG-based intelligent agent that helps data science candidates excel in technical and behavioral interviews through personalized coaching, real-time feedback, and performance analytics.
 
-Data Science interviews are challenging, requiring candidates to master both technical concepts (ML/DL algorithms, statistics, coding) and behavioral skills (STAR responses, communication). This system provides:
+## Key Features
 
-- **Personalized Interview Coaching**: Tailored responses based on your specific questions
-- **Dual-Mode Preparation**: Separate technical and behavioral interview tracks
-- **Smart Retrieval**: Hybrid search combining vector and keyword matching for optimal context
-- **Performance Tracking**: Monitor your preparation progress with analytics
+- **Intelligent Q&A System**: Leverages GPT-4 with RAG for accurate, context-aware responses
+- **Hybrid Search**: Combines vector similarity and keyword matching for optimal retrieval
+- **Performance Metrics**: Real-time analytics with Grafana dashboards
+- **Personalized Coaching**: Tailored responses for ML, Deep Learning, and Behavioral questions
+- **Optimized Retrieval**: MRR of 0.583 with cross-encoder re-ranking
+- **Feedback Loop**: Continuous improvement through user feedback collection
 
-## Quick Start
+## Performance Metrics
 
-### Prerequisites
-- Docker & Docker Compose (v3.9+)
-- OpenAI API key
-- 4GB+ RAM available
-- Git
+Our system has been extensively evaluated with the following results:
 
-### Installation
+### Retrieval Performance
+| Metric | Score | Description |
+|--------|-------|-------------|
+| **MRR** | 0.583 | Mean Reciprocal Rank |
+| **Hit@1** | 56.7% | Correct answer in first result |
+| **Hit@3** | 61.7% | Correct answer in top 3 results |
+| **Precision@3** | 48.9% | Relevance of top 3 results |
 
-1. **Clone the repository**
-```bash
-git clone https://github.com/bkraffa/ds-interview-coach.git
-cd ds-interview-coach
-```
+### Performance by Category
+| Category | MRR | Hit@1 | Coverage |
+|----------|-----|-------|----------|
+| **Machine Learning** | 0.900 | 85.0% | Excellent |
+| **Deep Learning** | 0.800 | 80.0% | Excellent |
+| **Behavioral** | 0.050 | 5.0% | Apparently human answers from our source document differ from GPT4 answers significantly |
 
-2. **Set up environment variables**
-```bash
-cp .env.example infra/.env
-# Edit .env and add your OPENAI_API_KEY
-```
-
-3. **Start all services**
-```bash
-cd infra
-docker compose up -d --build
-```
-
-4. **Wait for services to initialize** (~30 seconds)
-```bash
-# Check if services are ready
-docker compose ps
-```
-
-5. **Ingest knowledge base**
-```bash
-docker compose exec app python scripts/ingest.py --input data/raw
-```
-
-6. **Access the applications**
-- **Main App**: http://localhost:8501
-- **Qdrant UI**: http://localhost:6333/dashboard
-- **Grafana**: http://localhost:3000 (admin/admin)
-- **Prometheus**: http://localhost:9090
-
-## Knowledge Base
-
-The system includes pre-loaded interview questions covering:
-- **Machine Learning**: 50+ common ML interview questions
-- **Deep Learning**: 111 comprehensive DL questions
-- **Behavioral**: Framework templates and sample responses
-- **System Design**: Data engineering and MLOps scenarios
+### Optimal Configuration
+- **Retrieval**: Top-3 results with re-ranking
+- **Search**: Dense vector search with embeddings
+- **Re-ranking**: Cross-encoder (MS-MARCO MiniLM)
+- **Response Time**: <2 seconds average
 
 ## Architecture
 
@@ -88,180 +65,197 @@ The system includes pre-loaded interview questions covering:
               └──────────┘        └──────────┘
 ```
 
-## Configuration
+## Quick Start
 
-### Environment Variables
+### Prerequisites
+- Docker & Docker Compose (v3.9+)
+- OpenAI API key with GPT-4 access
+- 8GB+ RAM available
+- Git
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `OPENAI_API_KEY` | Your OpenAI API key | Required |
-| `EMBEDDING_MODEL` | OpenAI embedding model | text-embedding-3-small |
-| `EMBEDDING_DIM` | Embedding dimensions | 1536 |
-| `QDRANT_HOST` | Qdrant host | localhost |
-| `QDRANT_PORT` | Qdrant port | 6333 |
-| `QDRANT_COLLECTION` | Collection name | interview_chunks |
+### Installation
 
-### Adding Your Own Data
+```bash
+# 1. Clone the repository
+git clone https://github.com/bkraffa/ds-interview-coach.git
+cd ds-interview-coach
+
+# 2. Set up environment variables
+cp .env.example infra/.env
+nano infra/.env  # Add your OPENAI_API_KEY on .env
+
+# 3. Start all services
+cd infra
+docker compose up -d --build
+
+# 4. Wait for initialization (~30 seconds)
+docker compose ps
+
+# 5. Ingest knowledge base
+docker compose exec app python scripts/ingest.py --input data/raw
+
+# 6. Access the applications
+```
+
+### Service Endpoints
+- **Main Application**: http://localhost:8501
+- **Grafana Dashboards**: http://localhost:3000 (admin/admin)
+- **Qdrant UI**: http://localhost:6333/dashboard
+- **Prometheus**: http://localhost:9090
+
+## Knowledge Base
+
+Our comprehensive knowledge base includes:
+
+### Coverage Statistics
+- **225+ Total Questions** across all categories
+- **111 Deep Learning** questions with detailed explanations
+- **50+ Machine Learning** fundamentals and advanced topics
+- **64 Behavioral** questions with STAR method guidance
+- **Automatic Answer Generation** for questions without pre-existing answers
+
+### Content Quality
+- Expert-reviewed responses
+- Code examples and mathematical explanations
+- Industry best practices
+- Real interview scenarios
+
+## Advanced Features
+
+### Hybrid Search System
+```python
+# Combines multiple retrieval strategies
+- Vector Search: Semantic similarity using OpenAI embeddings
+- BM25: Keyword matching for exact terms
+- Re-ranking: Cross-encoder for result optimization
+- Query Rewriting: Automatic query enhancement
+```
+
+### Real-time Analytics Dashboard
+Monitor system performance with Grafana:
+- Query response times
+- User satisfaction metrics
+- Category-wise performance
+- Search method effectiveness
+
+### Configurable Parameters
+```yaml
+Temperature: 0.7 (adjustable creativity)
+Top-K: 3 (optimal based on evaluation)
+Embedding Model: text-embedding-3-small
+Generation Model: gpt-4o-mini
+Judge Model: gpt-4o (for evaluation)
+```
+
+## Evaluation Results
+
+### Retrieval Evaluation Summary
+```
+Best Configuration: top3_rerankTrue_rewriteFalse
+├── MRR: 0.583
+├── Hit@1: 56.7%
+├── Hit@3: 61.7%
+└── Success Rate: 100%
+
+Query Performance:
+├── Main Queries: MRR 0.556
+└── Query Variations: MRR 0.593 (better robustness)
+```
+
+### System Benchmarks
+- **Ingestion Speed**: ~100 Q&A pairs/minute
+- **Query Latency**: <2s average
+- **Embedding Generation**: 128 texts/batch
+- **Database Performance**: <10ms query time
+
+## Development
+
+### Running Evaluations
+
+```bash
+# Retrieval evaluation
+make eval-retrieval
+
+# LLM evaluation with GPT-4 judge
+make eval-llm
+
+# Complete evaluation suite
+make eval-all
+
+# Check results
+ls reports/
+```
+
+### Adding Custom Data
 
 1. Place files in `data/raw/`:
-   - PDFs: Technical papers, interview guides
-   - CSVs: Question banks, responses
-   - TXT/MD: Notes, documentation
+   - CSV files with questions/answers
+   - PDF technical documents
+   - Markdown documentation
 
 2. Run ingestion:
 ```bash
 docker compose exec app python scripts/ingest.py --input data/raw
 ```
 
-## Monitoring & Analytics
+### Testing
 
-### Grafana Dashboards
-Access at http://localhost:3000 (admin/admin)
-
-Available metrics:
-- Query response times
-- Retrieval accuracy
-- User satisfaction scores
-- System performance metrics
-- Question category distribution
-
-### User Feedback Collection
-The system collects feedback through:
-- Thumbs up/down ratings
-- Detailed feedback forms
-- Session analytics
-
-## Evaluation & Testing
-
-### Retrieval Evaluation
-```bash
-docker compose exec app python scripts/run_retrieval_eval.py
-```
-
-Compares:
-- Dense retrieval (vector search)
-- Sparse retrieval (BM25)
-- Hybrid approaches
-- Re-ranking strategies
-
-### LLM Evaluation
-```bash
-docker compose exec app python scripts/run_llm_eval.py
-```
-
-Evaluates:
-- Response quality
-- Prompt variations
-- Context window optimization
-- Temperature settings
-
-## Development
-
-### Local Development (without Docker)
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Set environment variables
-export OPENAI_API_KEY=your_key_here
-
-# Run ingestion
-python scripts/ingest.py --input data/raw
-
-# Start the app
-streamlit run app/streamlit_app.py
-```
-
-### Running Tests
 ```bash
 # Unit tests
 pytest tests/unit/
 
-# Integration tests
+# Integration tests  
 pytest tests/integration/
 
-# End-to-end tests
-pytest tests/e2e/
+# System tests
+pytest tests/test_system.py -v
 ```
 
-## Advanced Features
+## Monitoring & Observability
 
-### Hybrid Search
-Combines vector similarity with keyword matching:
-- Vector search for semantic similarity
-- BM25 for exact term matching
-- Weighted fusion for optimal results
+### Grafana Dashboards Include:
+- **Query Analytics**: Response times, success rates
+- **User Engagement**: Session metrics, feedback analysis
+- **System Health**: Resource usage, error rates
+- **Category Performance**: Question distribution and satisfaction
 
-### Query Rewriting
-Automatically enhances user queries:
-- Expands abbreviations
-- Adds context
-- Corrects common misspellings
-
-### Document Re-ranking
-Post-retrieval optimization using:
-- Cross-encoder models
-- Relevance scoring
-- Diversity promotion
-
-## Project Structure
-
-```
-ds-interview-coach/
-├── app/                    # Main application
-│   ├── streamlit_app.py   # UI
-│   └── services/          # Core services
-│       ├── rag.py         # RAG orchestration
-│       ├── embeddings.py  # Embedding service
-│       ├── chunking.py    # Document chunking
-│       ├── reranking.py   # Re-ranking logic
-│       └── feedback.py    # Feedback collection
-├── scripts/               # Utility scripts
-│   ├── ingest.py         # Data ingestion
-│   ├── run_retrieval_eval.py
-│   └── run_llm_eval.py
-├── data/                  # Data directory
-│   ├── raw/              # Source documents
-│   └── processed/        # Processed data
-├── infra/                # Infrastructure
-│   ├── docker-compose.yml
-│   ├── docker/           # Dockerfiles
-│   ├── grafana/          # Dashboards
-│   └── prometheus.yml    # Metrics config
-├── tests/                # Test suites
-├── reports/              # Evaluation reports
-└── requirements.txt      # Dependencies
+### Database Schema
+```sql
+feedback: User ratings and detailed feedback
+query_metrics: Performance metrics per query
+user_sessions: Session tracking and analytics
 ```
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/newfeature`)
-3. Commit changes (`git commit -m 'Add newfeature'`)
-4. Push to branch (`git push origin feature/newfeature`)
-5. Open a Pull Request (PR)
+Contributions are welcome! Please follow these steps to open a PR:
 
-## 📝 License
+```bash
+# Fork the repo, make changes, then:
+git checkout -b feature/your-feature
+git commit -m "Add your feature"
+git push origin feature/your-feature
+# Open a Pull Request
+```
 
-MIT License - see LICENSE file for details
+## License
 
-## 🙏 Acknowledgments
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-- Alexey Grigorev and all DataTalks community for all the shared knowledge throughout the last years.
+## Acknowledgments
 
-## 📞 Support
+- **Alexey Grigorev** and the DataTalks.Club community for knowledge sharing
+- **OpenAI** for GPT-4 and embeddings API
+- **Qdrant** team for the excellent vector database I came across on DataTalks Zoomcamp and got me impressed.
+- **Streamlit** for the intuitive UI framework I've been using for over 5 years
 
-- Issues: [GitHub Issues](https://github.com/bkraffa/ds-interview-coach/issues)
-- Discussions: [GitHub Discussions](https://github.com/bkraffa/ds-interview-coach/discussions)
+## Support & Contact
 
-## 🎯 Roadmap
-
-- [ ] Multi-language support
-- [ ] Voice interview simulation
-- [ ] Mock interview recordings
-- [ ] Integration with LeetCode/HackerRank
-- [ ] Custom evaluation metrics
-- [ ] Cloud deployment (AWS/GCP/Azure)
+- **Author**: Bruno Caraffa
+- **Email**: brunocaraffa@gmail.com
+- **Issues**: [GitHub Issues](https://github.com/bkraffa/ds-interview-coach/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/bkraffa/ds-interview-coach/discussions)
 
 ---
-Built with ❤️ for the Data Science community
+
+Built with love for the Data Science community

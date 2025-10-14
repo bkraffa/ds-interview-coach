@@ -76,11 +76,17 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_INSTALL_PLUGINS=grafana-clock-panel
     volumes:
+      # Datasources
       - ./grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+      # Dashboard provisioning config
+      - ./grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+      # Dashboard JSON files
       - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      # Persistent data
       - grafana_data:/var/lib/grafana
     depends_on:
       - postgres
+      - prometheus
     networks:
       - interview_net
 
