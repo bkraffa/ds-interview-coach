@@ -1,0 +1,1227 @@
+{
+  "timestamp": "2025-10-13T19:44:07.697208",
+  "num_questions": 15,
+  "questions_by_category": {
+    "machine_learning": 5,
+    "deep_learning": 5,
+    "behavioral": 5
+  },
+  "configurations": [
+    {
+      "config_name": "top5_hybridFalse_rerankFalse_rewriteFalse",
+      "top_k": 5,
+      "use_hybrid": false,
+      "use_rerank": false,
+      "use_rewrite": false,
+      "metrics": {
+        "mean_relevance": 0.21568783068783068,
+        "mean_category_accuracy": 1.0,
+        "mean_top1_relevance": 0.5733333333333334,
+        "mean_top3_relevance": 0.49132275132275127,
+        "mean_latency": 0.6348968982696533,
+        "std_latency": 0.1440393625072173
+      },
+      "category_metrics": {
+        "behavioral": {
+          "relevance": 0.057755555555555546,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "machine_learning": {
+          "relevance": 0.24377460317460317,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "deep_learning": {
+          "relevance": 0.3455333333333333,
+          "category_accuracy": 1.0,
+          "count": 5
+        }
+      },
+      "success_rate": 1.0,
+      "detailed_results": [
+        {
+          "query": "What is gradient descent and how does it work?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.17611111111111108,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.5,
+          "num_results": 5,
+          "latency": 0.6565282344818115
+        },
+        {
+          "query": "Explain the difference between bagging and boosting",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.3280952380952381,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.7142857142857143,
+          "num_results": 5,
+          "latency": 0.7835361957550049
+        },
+        {
+          "query": "What is overfitting and how to prevent it?",
+          "category": "machine_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.21466666666666664,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.6,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 5,
+          "latency": 0.6312589645385742
+        },
+        {
+          "query": "How would you handle imbalanced datasets?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.23333333333333334,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.8,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 5,
+          "latency": 0.7120625972747803
+        },
+        {
+          "query": "What's the difference between L1 and L2 regularization?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.26666666666666666,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.5555555555555555,
+          "num_results": 5,
+          "latency": 0.5367579460144043
+        },
+        {
+          "query": "How do CNNs work for image classification?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.42333333333333334,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.8888888888888888,
+          "num_results": 5,
+          "latency": 0.48395514488220215
+        },
+        {
+          "query": "What is backpropagation?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.4133333333333334,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 5,
+          "latency": 0.8367018699645996
+        },
+        {
+          "query": "What is the vanishing gradient problem?",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.35222222222222227,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.7222222222222223,
+          "num_results": 5,
+          "latency": 0.5902886390686035
+        },
+        {
+          "query": "Explain attention mechanism in transformers",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.12611111111111112,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.27777777777777773,
+          "num_results": 5,
+          "latency": 0.820457935333252
+        },
+        {
+          "query": "What's the purpose of dropout in neural networks?",
+          "category": "deep_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.4126666666666666,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.9333333333333332,
+          "num_results": 5,
+          "latency": 0.5964140892028809
+        },
+        {
+          "query": "Tell me about a time you handled a difficult stakeholder",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.008000000000000002,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.0,
+          "num_results": 5,
+          "latency": 0.4104118347167969
+        },
+        {
+          "query": "Why should I hire you?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.16499999999999998,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.38888888888888884,
+          "num_results": 5,
+          "latency": 0.5274467468261719
+        },
+        {
+          "query": "Describe a challenging project you worked on",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.08333333333333334,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.2,
+          "top3_relevance": 0.20000000000000004,
+          "num_results": 5,
+          "latency": 0.4941122531890869
+        },
+        {
+          "query": "How do you prioritize tasks when you have multiple deadlines?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.021333333333333336,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.06666666666666667,
+          "num_results": 5,
+          "latency": 0.5283863544464111
+        },
+        {
+          "query": "Tell me about a time you failed and what you learned",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.01111111111111111,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.05555555555555555,
+          "num_results": 5,
+          "latency": 0.9151346683502197
+        }
+      ]
+    },
+    {
+      "config_name": "top5_hybridFalse_rerankTrue_rewriteFalse",
+      "top_k": 5,
+      "use_hybrid": false,
+      "use_rerank": true,
+      "use_rewrite": false,
+      "metrics": {
+        "mean_relevance": 0.22404656084656083,
+        "mean_category_accuracy": 1.0,
+        "mean_top1_relevance": 0.5733333333333334,
+        "mean_top3_relevance": 0.51005291005291,
+        "mean_latency": 1.2568450927734376,
+        "std_latency": 0.34741331078710275
+      },
+      "category_metrics": {
+        "behavioral": {
+          "relevance": 0.0544888888888889,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "machine_learning": {
+          "relevance": 0.25718412698412696,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "deep_learning": {
+          "relevance": 0.36046666666666666,
+          "category_accuracy": 1.0,
+          "count": 5
+        }
+      },
+      "success_rate": 1.0,
+      "detailed_results": [
+        {
+          "query": "What is gradient descent and how does it work?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.19277777777777777,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.5,
+          "num_results": 5,
+          "latency": 2.2275454998016357
+        },
+        {
+          "query": "Explain the difference between bagging and boosting",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.3604761904761905,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.7619047619047619,
+          "num_results": 5,
+          "latency": 1.1994428634643555
+        },
+        {
+          "query": "What is overfitting and how to prevent it?",
+          "category": "machine_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.246,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.6,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 5,
+          "latency": 1.2716777324676514
+        },
+        {
+          "query": "How would you handle imbalanced datasets?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.22000000000000003,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.8,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 5,
+          "latency": 1.1583080291748047
+        },
+        {
+          "query": "What's the difference between L1 and L2 regularization?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.26666666666666666,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.5555555555555555,
+          "num_results": 5,
+          "latency": 1.3780579566955566
+        },
+        {
+          "query": "How do CNNs work for image classification?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.4333333333333333,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 5,
+          "latency": 1.5635952949523926
+        },
+        {
+          "query": "What is backpropagation?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.42666666666666664,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 5,
+          "latency": 1.5399360656738281
+        },
+        {
+          "query": "What is the vanishing gradient problem?",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.3855555555555556,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.888888888888889,
+          "num_results": 5,
+          "latency": 1.3512415885925293
+        },
+        {
+          "query": "Explain attention mechanism in transformers",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.12611111111111112,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.27777777777777773,
+          "num_results": 5,
+          "latency": 1.1892015933990479
+        },
+        {
+          "query": "What's the purpose of dropout in neural networks?",
+          "category": "deep_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.43066666666666664,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 5,
+          "latency": 1.311905860900879
+        },
+        {
+          "query": "Tell me about a time you handled a difficult stakeholder",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.0,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.0,
+          "num_results": 5,
+          "latency": 1.222754716873169
+        },
+        {
+          "query": "Why should I hire you?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.13611111111111113,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.27777777777777773,
+          "num_results": 5,
+          "latency": 0.9141895771026611
+        },
+        {
+          "query": "Describe a challenging project you worked on",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.078,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.2,
+          "top3_relevance": 0.13333333333333333,
+          "num_results": 5,
+          "latency": 0.7935659885406494
+        },
+        {
+          "query": "How do you prioritize tasks when you have multiple deadlines?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.03333333333333334,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.13333333333333333,
+          "num_results": 5,
+          "latency": 0.9370534420013428
+        },
+        {
+          "query": "Tell me about a time you failed and what you learned",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.025,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.05555555555555555,
+          "num_results": 5,
+          "latency": 0.7942001819610596
+        }
+      ]
+    },
+    {
+      "config_name": "top5_hybridFalse_rerankTrue_rewriteTrue",
+      "top_k": 5,
+      "use_hybrid": false,
+      "use_rerank": true,
+      "use_rewrite": true,
+      "metrics": {
+        "mean_relevance": 0.2218243386243386,
+        "mean_category_accuracy": 1.0,
+        "mean_top1_relevance": 0.5733333333333334,
+        "mean_top3_relevance": 0.49746031746031744,
+        "mean_latency": 2.2755998770395913,
+        "std_latency": 0.4778611407293381
+      },
+      "category_metrics": {
+        "behavioral": {
+          "relevance": 0.049822222222222226,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "machine_learning": {
+          "relevance": 0.25718412698412696,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "deep_learning": {
+          "relevance": 0.3584666666666666,
+          "category_accuracy": 1.0,
+          "count": 5
+        }
+      },
+      "success_rate": 1.0,
+      "detailed_results": [
+        {
+          "query": "What is gradient descent and how does it work?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.19277777777777777,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.5,
+          "num_results": 5,
+          "latency": 2.07129168510437
+        },
+        {
+          "query": "Explain the difference between bagging and boosting",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.3604761904761905,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.7619047619047619,
+          "num_results": 5,
+          "latency": 2.0981602668762207
+        },
+        {
+          "query": "What is overfitting and how to prevent it?",
+          "category": "machine_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.246,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.6,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 5,
+          "latency": 2.1766927242279053
+        },
+        {
+          "query": "How would you handle imbalanced datasets?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.22000000000000003,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.8,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 5,
+          "latency": 3.196159839630127
+        },
+        {
+          "query": "What's the difference between L1 and L2 regularization?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.26666666666666666,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.5555555555555555,
+          "num_results": 5,
+          "latency": 2.0407798290252686
+        },
+        {
+          "query": "How do CNNs work for image classification?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.42333333333333334,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.9444444444444445,
+          "num_results": 5,
+          "latency": 1.983532190322876
+        },
+        {
+          "query": "What is backpropagation?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.42666666666666664,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 5,
+          "latency": 2.678206205368042
+        },
+        {
+          "query": "What is the vanishing gradient problem?",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.3855555555555556,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.888888888888889,
+          "num_results": 5,
+          "latency": 2.556579828262329
+        },
+        {
+          "query": "Explain attention mechanism in transformers",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.12611111111111112,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.27777777777777773,
+          "num_results": 5,
+          "latency": 2.397057056427002
+        },
+        {
+          "query": "What's the purpose of dropout in neural networks?",
+          "category": "deep_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.43066666666666664,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 5,
+          "latency": 2.414501905441284
+        },
+        {
+          "query": "Tell me about a time you handled a difficult stakeholder",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.0,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.0,
+          "num_results": 5,
+          "latency": 1.5808031558990479
+        },
+        {
+          "query": "Why should I hire you?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.13611111111111113,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.27777777777777773,
+          "num_results": 5,
+          "latency": 1.6513898372650146
+        },
+        {
+          "query": "Describe a challenging project you worked on",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.078,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.2,
+          "top3_relevance": 0.13333333333333333,
+          "num_results": 5,
+          "latency": 1.6240205764770508
+        },
+        {
+          "query": "How do you prioritize tasks when you have multiple deadlines?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.01,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.0,
+          "num_results": 5,
+          "latency": 2.547557830810547
+        },
+        {
+          "query": "Tell me about a time you failed and what you learned",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.025,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.05555555555555555,
+          "num_results": 5,
+          "latency": 3.117265224456787
+        }
+      ]
+    },
+    {
+      "config_name": "top3_hybridFalse_rerankTrue_rewriteTrue",
+      "top_k": 3,
+      "use_hybrid": false,
+      "use_rerank": true,
+      "use_rewrite": true,
+      "metrics": {
+        "mean_relevance": 0.31964726631393287,
+        "mean_category_accuracy": 1.0,
+        "mean_top1_relevance": 0.5844444444444444,
+        "mean_top3_relevance": 0.49005291005291,
+        "mean_latency": 1.962579345703125,
+        "std_latency": 0.5689229562547924
+      },
+      "category_metrics": {
+        "behavioral": {
+          "relevance": 0.0625925925925926,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "machine_learning": {
+          "relevance": 0.3889417989417989,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "deep_learning": {
+          "relevance": 0.5074074074074073,
+          "category_accuracy": 1.0,
+          "count": 5
+        }
+      },
+      "success_rate": 1.0,
+      "detailed_results": [
+        {
+          "query": "What is gradient descent and how does it work?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.2685185185185185,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.5,
+          "num_results": 3,
+          "latency": 2.3852691650390625
+        },
+        {
+          "query": "Explain the difference between bagging and boosting",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.5317460317460317,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.7619047619047619,
+          "num_results": 3,
+          "latency": 1.786273717880249
+        },
+        {
+          "query": "What is overfitting and how to prevent it?",
+          "category": "machine_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.3333333333333333,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.6,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 3,
+          "latency": 2.539304494857788
+        },
+        {
+          "query": "How would you handle imbalanced datasets?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.3666666666666667,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.8,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 3,
+          "latency": 1.90598726272583
+        },
+        {
+          "query": "What's the difference between L1 and L2 regularization?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.4444444444444444,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.5555555555555555,
+          "num_results": 3,
+          "latency": 3.7161595821380615
+        },
+        {
+          "query": "How do CNNs work for image classification?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.5833333333333334,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.9444444444444445,
+          "num_results": 3,
+          "latency": 2.1099038124084473
+        },
+        {
+          "query": "What is backpropagation?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.611111111111111,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 3,
+          "latency": 1.6619641780853271
+        },
+        {
+          "query": "What is the vanishing gradient problem?",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.5462962962962963,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.8333333333333334,
+          "num_results": 3,
+          "latency": 1.6596543788909912
+        },
+        {
+          "query": "Explain attention mechanism in transformers",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.1851851851851852,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.27777777777777773,
+          "num_results": 3,
+          "latency": 2.040191173553467
+        },
+        {
+          "query": "What's the purpose of dropout in neural networks?",
+          "category": "deep_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.611111111111111,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 3,
+          "latency": 1.7413780689239502
+        },
+        {
+          "query": "Tell me about a time you handled a difficult stakeholder",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.0,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.0,
+          "num_results": 3,
+          "latency": 1.4453990459442139
+        },
+        {
+          "query": "Why should I hire you?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.1851851851851852,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.5,
+          "top3_relevance": 0.2222222222222222,
+          "num_results": 3,
+          "latency": 2.0007097721099854
+        },
+        {
+          "query": "Describe a challenging project you worked on",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.10000000000000002,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.2,
+          "top3_relevance": 0.13333333333333333,
+          "num_results": 3,
+          "latency": 1.3859577178955078
+        },
+        {
+          "query": "How do you prioritize tasks when you have multiple deadlines?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.0,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.0,
+          "num_results": 3,
+          "latency": 1.514556646347046
+        },
+        {
+          "query": "Tell me about a time you failed and what you learned",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.027777777777777776,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.05555555555555555,
+          "num_results": 3,
+          "latency": 1.5459811687469482
+        }
+      ]
+    },
+    {
+      "config_name": "top7_hybridFalse_rerankTrue_rewriteTrue",
+      "top_k": 7,
+      "use_hybrid": false,
+      "use_rerank": true,
+      "use_rewrite": true,
+      "metrics": {
+        "mean_relevance": 0.16642047295108517,
+        "mean_category_accuracy": 1.0,
+        "mean_top1_relevance": 0.5333333333333333,
+        "mean_top3_relevance": 0.5056084656084655,
+        "mean_latency": 2.690238444010417,
+        "std_latency": 0.5365598316326603
+      },
+      "category_metrics": {
+        "behavioral": {
+          "relevance": 0.04020408163265306,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "machine_learning": {
+          "relevance": 0.18117298347910593,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "deep_learning": {
+          "relevance": 0.2778843537414966,
+          "category_accuracy": 1.0,
+          "count": 5
+        }
+      },
+      "success_rate": 1.0,
+      "detailed_results": [
+        {
+          "query": "What is gradient descent and how does it work?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.14506802721088435,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.5,
+          "num_results": 7,
+          "latency": 2.945297956466675
+        },
+        {
+          "query": "Explain the difference between bagging and boosting",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.2626336248785229,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.7619047619047619,
+          "num_results": 7,
+          "latency": 3.4137823581695557
+        },
+        {
+          "query": "What is overfitting and how to prevent it?",
+          "category": "machine_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.18931972789115645,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.6,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 7,
+          "latency": 2.6090714931488037
+        },
+        {
+          "query": "How would you handle imbalanced datasets?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.11836734693877551,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.2,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 7,
+          "latency": 3.0087008476257324
+        },
+        {
+          "query": "What's the difference between L1 and L2 regularization?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.19047619047619047,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.5555555555555555,
+          "num_results": 7,
+          "latency": 2.4608852863311768
+        },
+        {
+          "query": "How do CNNs work for image classification?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.3537414965986394,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 7,
+          "latency": 2.7227861881256104
+        },
+        {
+          "query": "What is backpropagation?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.3342403628117914,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 7,
+          "latency": 3.298729419708252
+        },
+        {
+          "query": "What is the vanishing gradient problem?",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.2867346938775511,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.888888888888889,
+          "num_results": 7,
+          "latency": 2.677295446395874
+        },
+        {
+          "query": "Explain attention mechanism in transformers",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.08871882086167801,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.27777777777777773,
+          "num_results": 7,
+          "latency": 2.5135436058044434
+        },
+        {
+          "query": "What's the purpose of dropout in neural networks?",
+          "category": "deep_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.32598639455782313,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 7,
+          "latency": 3.474029302597046
+        },
+        {
+          "query": "Tell me about a time you handled a difficult stakeholder",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.0,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.0,
+          "num_results": 7,
+          "latency": 3.3383843898773193
+        },
+        {
+          "query": "Why should I hire you?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.0996031746031746,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.27777777777777773,
+          "num_results": 7,
+          "latency": 1.8267815113067627
+        },
+        {
+          "query": "Describe a challenging project you worked on",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.07551020408163266,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.2,
+          "top3_relevance": 0.20000000000000004,
+          "num_results": 7,
+          "latency": 1.991933822631836
+        },
+        {
+          "query": "How do you prioritize tasks when you have multiple deadlines?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.004081632653061224,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.0,
+          "num_results": 7,
+          "latency": 1.8889408111572266
+        },
+        {
+          "query": "Tell me about a time you failed and what you learned",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.021825396825396828,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.05555555555555555,
+          "num_results": 7,
+          "latency": 2.1834142208099365
+        }
+      ]
+    },
+    {
+      "config_name": "top10_hybridFalse_rerankTrue_rewriteTrue",
+      "top_k": 10,
+      "use_hybrid": false,
+      "use_rerank": true,
+      "use_rewrite": true,
+      "metrics": {
+        "mean_relevance": 0.12729355001259765,
+        "mean_category_accuracy": 1.0,
+        "mean_top1_relevance": 0.5844444444444445,
+        "mean_top3_relevance": 0.5174603174603174,
+        "mean_latency": 2.998673423131307,
+        "std_latency": 0.8828856385088518
+      },
+      "category_metrics": {
+        "behavioral": {
+          "relevance": 0.033712698412698416,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "machine_learning": {
+          "relevance": 0.1342502267573696,
+          "category_accuracy": 1.0,
+          "count": 5
+        },
+        "deep_learning": {
+          "relevance": 0.2139177248677248,
+          "category_accuracy": 1.0,
+          "count": 5
+        }
+      },
+      "success_rate": 1.0,
+      "detailed_results": [
+        {
+          "query": "What is gradient descent and how does it work?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.1076785714285714,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.5,
+          "num_results": 10,
+          "latency": 4.660650253295898
+        },
+        {
+          "query": "Explain the difference between bagging and boosting",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.18299319727891158,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.7619047619047619,
+          "num_results": 10,
+          "latency": 4.068495035171509
+        },
+        {
+          "query": "What is overfitting and how to prevent it?",
+          "category": "machine_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.13724603174603173,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.6,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 10,
+          "latency": 3.081386089324951
+        },
+        {
+          "query": "How would you handle imbalanced datasets?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.11000000000000001,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.8,
+          "top3_relevance": 0.5333333333333333,
+          "num_results": 10,
+          "latency": 2.7742226123809814
+        },
+        {
+          "query": "What's the difference between L1 and L2 regularization?",
+          "category": "machine_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.13333333333333333,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.5555555555555555,
+          "num_results": 10,
+          "latency": 2.8318493366241455
+        },
+        {
+          "query": "How do CNNs work for image classification?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.27354497354497354,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 10,
+          "latency": 3.4044694900512695
+        },
+        {
+          "query": "What is backpropagation?",
+          "category": "deep_learning",
+          "difficulty": "medium",
+          "relevance_score": 0.25137566137566136,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 10,
+          "latency": 3.9529359340667725
+        },
+        {
+          "query": "What is the vanishing gradient problem?",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.22554232804232804,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 0.888888888888889,
+          "num_results": 10,
+          "latency": 2.6398391723632812
+        },
+        {
+          "query": "Explain attention mechanism in transformers",
+          "category": "deep_learning",
+          "difficulty": "hard",
+          "relevance_score": 0.09087962962962962,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.5,
+          "top3_relevance": 0.38888888888888884,
+          "num_results": 10,
+          "latency": 4.019138813018799
+        },
+        {
+          "query": "What's the purpose of dropout in neural networks?",
+          "category": "deep_learning",
+          "difficulty": "easy",
+          "relevance_score": 0.2282460317460317,
+          "category_accuracy": 1.0,
+          "top1_relevance": 1.0,
+          "top3_relevance": 1.0,
+          "num_results": 10,
+          "latency": 3.3473222255706787
+        },
+        {
+          "query": "Tell me about a time you handled a difficult stakeholder",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.0,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.0,
+          "num_results": 10,
+          "latency": 1.857083797454834
+        },
+        {
+          "query": "Why should I hire you?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.07527777777777778,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.3333333333333333,
+          "top3_relevance": 0.27777777777777773,
+          "num_results": 10,
+          "latency": 1.8579025268554688
+        },
+        {
+          "query": "Describe a challenging project you worked on",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.05702380952380953,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.2,
+          "top3_relevance": 0.20000000000000004,
+          "num_results": 10,
+          "latency": 1.876110315322876
+        },
+        {
+          "query": "How do you prioritize tasks when you have multiple deadlines?",
+          "category": "behavioral",
+          "difficulty": "easy",
+          "relevance_score": 0.022214285714285714,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.06666666666666667,
+          "num_results": 10,
+          "latency": 1.8020000457763672
+        },
+        {
+          "query": "Tell me about a time you failed and what you learned",
+          "category": "behavioral",
+          "difficulty": "medium",
+          "relevance_score": 0.014047619047619048,
+          "category_accuracy": 1.0,
+          "top1_relevance": 0.0,
+          "top3_relevance": 0.05555555555555555,
+          "num_results": 10,
+          "latency": 2.8066956996917725
+        }
+      ]
+    }
+  ],
+  "best_configuration": {
+    "config_name": "top3_hybridFalse_rerankTrue_rewriteTrue",
+    "top_k": 3,
+    "use_hybrid": false,
+    "use_rerank": true,
+    "use_rewrite": true,
+    "metrics": {
+      "mean_relevance": 0.31964726631393287,
+      "mean_category_accuracy": 1.0,
+      "mean_top1_relevance": 0.5844444444444444,
+      "mean_top3_relevance": 0.49005291005291,
+      "mean_latency": 1.962579345703125,
+      "std_latency": 0.5689229562547924
+    },
+    "combined_score": 0.5748747795414462
+  }
+}

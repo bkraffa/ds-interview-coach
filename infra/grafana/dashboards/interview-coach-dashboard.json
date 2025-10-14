@@ -1,0 +1,342 @@
+{
+  "id": null,
+  "uid": "interview-coach",
+  "title": "DS Interview Coach Monitoring",
+  "tags": ["interview-coach", "rag", "monitoring"],
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "30s",
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "gridPos": {"h": 6, "w": 6, "x": 0, "y": 0},
+      "type": "stat",
+      "title": "Total Queries (24h)",
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-datasource"
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT COUNT(*) as value FROM query_metrics WHERE created_at > NOW() - INTERVAL '24 hours'",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 50},
+              {"color": "red", "value": 100}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "gridPos": {"h": 6, "w": 6, "x": 6, "y": 0},
+      "type": "stat",
+      "title": "Active Sessions (24h)",
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-datasource"
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT COUNT(DISTINCT session_id) as value FROM user_sessions WHERE start_time > NOW() - INTERVAL '24 hours'",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "blue", "value": null}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "gridPos": {"h": 6, "w": 6, "x": 12, "y": 0},
+      "type": "stat",
+      "title": "Satisfaction Rate",
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-datasource"
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT ROUND(AVG(CASE WHEN rating = 1 THEN 100.0 ELSE 0.0 END), 1) as value FROM feedback WHERE created_at > NOW() - INTERVAL '24 hours' AND rating != 0",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "red", "value": null},
+              {"color": "yellow", "value": 50},
+              {"color": "green", "value": 75}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "gridPos": {"h": 6, "w": 6, "x": 18, "y": 0},
+      "type": "stat",
+      "title": "Avg Response Time",
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-datasource"
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT ROUND(AVG(response_time_ms)::numeric, 0) as value FROM query_metrics WHERE created_at > NOW() - INTERVAL '24 hours'",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 1000},
+              {"color": "red", "value": 3000}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 6},
+      "type": "timeseries",
+      "title": "Query Rate Over Time",
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-datasource"
+      },
+      "targets": [
+        {
+          "format": "time_series",
+          "rawSql": "SELECT DATE_TRUNC('hour', created_at) as time, COUNT(*) as value FROM query_metrics WHERE created_at > NOW() - INTERVAL '24 hours' GROUP BY time ORDER BY time",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "fillOpacity": 10
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 6},
+      "type": "timeseries",
+      "title": "Response Time Trend",
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-datasource"
+      },
+      "targets": [
+        {
+          "format": "time_series",
+          "rawSql": "SELECT DATE_TRUNC('hour', created_at) as time, AVG(response_time_ms) as avg_time FROM query_metrics WHERE created_at > NOW() - INTERVAL '24 hours' GROUP BY time ORDER BY time",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "fillOpacity": 10
+          }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 14},
+      "type": "piechart",
+      "title": "Queries by Category",
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-datasource"
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT category as category, COUNT(*) as value FROM feedback WHERE created_at > NOW() - INTERVAL '24 hours' AND category IS NOT NULL GROUP BY category",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "values": ["value", "percent"]
+        },
+        "pieType": "pie"
+      }
+    },
+    {
+      "id": 8,
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 14},
+      "type": "piechart",
+      "title": "Search Method Usage",
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-datasource"
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT search_method as method, COUNT(*) as value FROM query_metrics WHERE created_at > NOW() - INTERVAL '24 hours' AND search_method IS NOT NULL GROUP BY search_method",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "values": ["value", "percent"]
+        },
+        "pieType": "pie"
+      }
+    },
+    {
+      "id": 9,
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 14},
+      "type": "bargauge",
+      "title": "Feedback Distribution",
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-datasource"
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT CASE WHEN rating = 1 THEN 'Positive' WHEN rating = -1 THEN 'Negative' ELSE 'Neutral' END as feedback, COUNT(*) as value FROM feedback WHERE created_at > NOW() - INTERVAL '24 hours' GROUP BY rating",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "gradient"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "red", "value": null},
+              {"color": "yellow", "value": 5},
+              {"color": "green", "value": 10}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 22},
+      "type": "table",
+      "title": "Recent Queries",
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-datasource"
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT created_at, LEFT(query, 80) as query, search_method, num_results, response_time_ms FROM query_metrics WHERE created_at > NOW() - INTERVAL '24 hours' ORDER BY created_at DESC LIMIT 20",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "showHeader": true,
+        "sortBy": [
+          {
+            "displayName": "created_at",
+            "desc": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 30},
+      "type": "table",
+      "title": "Problematic Queries (Negative Feedback)",
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-datasource"
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "SELECT LEFT(query, 80) as query, category, COUNT(*) as negative_count, ROUND(AVG(response_time_ms)::numeric, 0) as avg_time FROM feedback WHERE rating = -1 AND created_at > NOW() - INTERVAL '7 days' GROUP BY query, category ORDER BY negative_count DESC LIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "showHeader": true
+      }
+    }
+  ],
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": false,
+  "panels": [],
+  "style": "dark",
+  "templating": {
+    "list": []
+  },
+  "timepicker": {},
+  "weekStart": ""
+}

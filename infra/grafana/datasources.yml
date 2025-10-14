@@ -1,7 +1,18 @@
 apiVersion: 1
+
 datasources:
-  - name: Prometheus
-    type: prometheus
+  - name: PostgreSQL
+    type: postgres
+    uid: postgres-datasource
     access: proxy
-    url: http://prometheus:9090
+    url: postgres:5432
+    database: interview_coach
+    user: postgres
+    secureJsonData:
+      password: postgres
+    jsonData:
+      sslmode: disable
+      postgresVersion: 1600
+      timescaledb: false
+    editable: true
     isDefault: true
