@@ -1,4 +1,4 @@
-# DS Interview Coach — AI-Powered Interview Preparation System
+# DS Interview Coach  - AI-Powered Interview Simulator
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-green.svg)](https://www.docker.com/)
@@ -13,7 +13,7 @@ An advanced RAG-based intelligent agent that helps data science candidates excel
 - **Hybrid Search**: Combines vector similarity and keyword matching for optimal retrieval
 - **Performance Metrics**: Real-time analytics with Grafana dashboards
 - **Personalized Coaching**: Tailored responses for ML, Deep Learning, and Behavioral questions
-- **Optimized Retrieval**: MRR of 0.583 with cross-encoder re-ranking
+- **Optimized Retrieval**: MRR of 0.9 for technical questions with cross-encoder re-ranking
 - **Feedback Loop**: Continuous improvement through user feedback collection
 
 ## Performance Metrics
